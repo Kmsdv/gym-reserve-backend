@@ -26,4 +26,3 @@ def decode_func(token):
     print(decode)
     # 返回解码出来的data
     return decode['data']
-

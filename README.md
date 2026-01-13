@@ -6,11 +6,22 @@
 
 ## 项目结构
 
-- `app.py`：Flask 应用主入口与全部后端接口
-- `config.py`：数据库与 Redis 等基础配置
-- `auth.py`：JWT 编码/解码示例（目前接口未强制使用）
-- `main.py`：示例脚本（与后端运行无关）
+- `run.py`：项目启动入口
+- `src/`：源代码目录
+  - `__init__.py`：应用工厂函数与初始化
+  - `config.py`：数据库与 Redis 等基础配置
+  - `extensions.py`：数据库实例定义
+  - `routes/`：路由蓝图模块
+    - `auth.py`：用户注册认证
+    - `facility.py`：设施管理与推荐
+    - `reservation.py`：预约管理
+    - `user.py`：用户相关
+    - `main.py`：数据汇总
+  - `utils/`：工具模块
+    - `auth.py`：JWT 编码/解码示例
 - `requirements.txt`：Python 依赖
+- `sql/`：数据库脚本
+- `docs/`：文档资源
 
 ---
 
@@ -19,7 +30,7 @@
 - 后端框架：Flask、Flask-Cors、Flask-SQLAlchemy
 - 数据库：MySQL（通过 PyMySQL 连接）
 - ORM/SQL：SQLAlchemy + 原生 SQL（`sqlalchemy.text`）
-- 身份认证：PyJWT（`auth.py` 示例，默认未启用强制校验）
+- 身份认证：PyJWT（`src/utils/auth.py` 示例，默认未启用强制校验）
 
 ---
 
@@ -41,9 +52,9 @@ pip install -r requirements.txt
 3) 准备 MySQL 数据库（建议 Navicat 管理）
 
 - 新建数据库（示例名：`sjk`）
-- 导入初始化 SQL（例如 `sjk.sql`，包含 `users`、`facilities`、`reservations`、`ratings` 等表；请根据你实际 SQL 路径导入）
+- 导入初始化 SQL（例如 `sql/sjk.sql`，包含 `users`、`facilities`、`reservations`、`ratings` 等表；请根据你实际 SQL 路径导入）
 
-4) 配置后端连接：修改 `config.py`
+4) 配置后端连接：修改 `src/config.py`
 
 ```python
 class BaseConfig(object):
@@ -62,14 +73,14 @@ class BaseConfig(object):
 		SQLALCHEMY_TRACK_MODIFICATIONS = True
 ```
 
-说明：`app.py` 内部还设置了 `app.secret_key`（用于 session），`auth.py` 中的 `secret` 用于 JWT 示例；均为演示用途，请在生产环境替换为安全的随机值。
+说明：`src/__init__.py` 内部还设置了 `app.secret_key`（用于 session），`src/utils/auth.py` 中的 `secret` 用于 JWT 示例；均为演示用途，请在生产环境替换为安全的随机值。
 
 ---
 
 ## 启动后端
 
 ```bash
-python app.py
+python run.py
 ```
 
 默认在 `http://0.0.0.0:5000` 监听，已启用 CORS（跨域）与 `SESSION_TYPE=filesystem`。

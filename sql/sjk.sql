@@ -11,7 +11,7 @@
  Target Server Version : 80404 (8.4.4)
  File Encoding         : 65001
 
- Date: 01/12/2025 14:31:57
+ Date: 13/01/2026 13:40:59
 */
 
 SET NAMES utf8mb4;
@@ -30,7 +30,16 @@ CREATE TABLE `facilities`  (
   `capacity` int NULL DEFAULT 1,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`facility_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of facilities
+-- ----------------------------
+INSERT INTO `facilities` VALUES (1, '篮球场一号', '篮球', '标准室外篮球场', '社区东区', 10, '2026-01-13 13:36:57');
+INSERT INTO `facilities` VALUES (2, '羽毛球馆', '羽毛球', '室内羽毛球场', '社区活动中心二楼', 4, '2026-01-13 13:36:57');
+INSERT INTO `facilities` VALUES (3, '健身房', '健身', '综合力量与有氧训练区', '社区活动中心一楼', 20, '2026-01-13 13:36:57');
+INSERT INTO `facilities` VALUES (4, '乒乓球室', '乒乓球', '标准乒乓球室', '社区西区', 6, '2026-01-13 13:36:57');
+INSERT INTO `facilities` VALUES (13, '瑜伽室', '瑜伽', '瑜伽与形体训练', '社区文化楼三楼', 12, '2026-01-13 13:36:57');
 
 -- ----------------------------
 -- Table structure for ratings
@@ -49,7 +58,12 @@ CREATE TABLE `ratings`  (
   CONSTRAINT `ratings_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `ratings_ibfk_2` FOREIGN KEY (`facility_id`) REFERENCES `facilities` (`facility_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `ratings_chk_1` CHECK (`score` between 1 and 5)
-) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 16 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of ratings
+-- ----------------------------
+INSERT INTO `ratings` VALUES (15, 1, 1, 5, '好用', '2026-01-13 13:40:10');
 
 -- ----------------------------
 -- Table structure for reservations
@@ -69,7 +83,11 @@ CREATE TABLE `reservations`  (
   CONSTRAINT `reservations_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `reservations_ibfk_2` FOREIGN KEY (`facility_id`) REFERENCES `facilities` (`facility_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `chk_time` CHECK (`end_time` > `start_time`)
-) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 23 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of reservations
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for usage_logs
@@ -86,7 +104,11 @@ CREATE TABLE `usage_logs`  (
   INDEX `facility_id`(`facility_id` ASC) USING BTREE,
   CONSTRAINT `usage_logs_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `usage_logs_ibfk_2` FOREIGN KEY (`facility_id`) REFERENCES `facilities` (`facility_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of usage_logs
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for users
@@ -102,6 +124,15 @@ CREATE TABLE `users`  (
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`user_id`) USING BTREE,
   UNIQUE INDEX `username`(`username` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of users
+-- ----------------------------
+INSERT INTO `users` VALUES (1, 'zhangsan', 'hash_zhangsan', '张三', '13800000001', 'zhangsan@example.com', '2026-01-13 13:36:53');
+INSERT INTO `users` VALUES (2, 'lisi', 'hash_lisi', '李四', '13800000002', 'lisi@example.com', '2026-01-13 13:36:53');
+INSERT INTO `users` VALUES (3, 'wangwu', 'hash_wangwu', '王五', '13800000003', 'wangwu@example.com', '2026-01-13 13:36:53');
+INSERT INTO `users` VALUES (4, 'zhaoliu', 'hash_zhaoliu', '赵六', '13800000004', 'zhaoliu@example.com', '2026-01-13 13:36:53');
+INSERT INTO `users` VALUES (10, 'admin', 'hash_admin', '管理员', '13800000000', 'admin@example.com', '2026-01-13 13:36:53');
 
 SET FOREIGN_KEY_CHECKS = 1;
